@@ -62,7 +62,7 @@ With connectors for:
 | I2C                        | 4-pin JST-GH           | Sensor communication                                                         | VCC, SCL, SDA, GND                                                    |
 | CAN-FD                     | 4-pin JST-GH           | CAN-FD bus communication                                                     | VCC, CAN_H, CAN_L, GND                                                |
 | Digital Receiver           | 4-pin JST-GH           | ELRS, CRSF, SBUS input                                                       | VCC, TX, RX, GND                                                      |
-| ESC Header (x2)            | 8-pin JST-SH           | Up to 8x DShot ESCs                                                          | NC, GND, Telemetry, PWM1–PWM4                                         |
+| ESC Header (x2)            | 8-pin JST-SH           | Up to 8x DShot ESCs                                                          | NC, GND, GND, Telemetry, PWM1–PWM4                                         |
 | Ethernet                   | 2-pin JST-GH           | 100BASE-T1 Ethernet                                                          | TRX+, TRX-                                                            |
 | SPI                        | 8-pin JST-GH           | Sensor/OSD interface                                                         | VCC, SCK, MISO, MOSI, CS, DRDY, nRST, GND                             |
 | Pixhawk Debug Full         | 10-pin JST-SH         | SWD + Debug UART                                                             | VREF, TX, RX, SWDIO, SWCLK, SWO, NC, NC, nRST, GND                    |
