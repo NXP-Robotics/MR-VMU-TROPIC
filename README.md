@@ -1,6 +1,8 @@
 # MR-VMU-Tropic
 
-MR-VMU-Tropic (Vehicle Management Unit) is an Open-Source base board designed around the [NXP i.MX RT1064 MCU](https://www.nxp.com/products/i.MX-RT1064).
+MR-VMU-Tropic (Vehicle Management Unit) is an Open-Source FMU base board designed around the [NXP i.MX RT1064 MCU](https://www.nxp.com/products/i.MX-RT1064).
+
+AKA Drone FMU (Flight Management Unit), but is applicable to many vehicle types.
 
 MR-VMU-Tropic Side view     |  MR-VMU-Tropic Top view
 :-------------------------:|:-------------------------:
