@@ -74,10 +74,10 @@ Some of the JST-GH connectors pinout follows the [DS-009 connector specification
 
 ## Schematics and Production Files
 
-These are the schematics and production files available for different versions of MR-VMU-Tropic:
-Hardware design files for MR-VMU-Tropic board revisions:
+Hardware design files for different MR-VMU-Tropic board revisions:
 
 | Revision | Schematics | Production files |
 |----------|------------|------------------|
-| rev.C | [download](./schematics_and_production_files/tropic_rev_c/TROPIC_Schematic_RevC_Feb_25.zip) | - |
-| rev.D | [download](./schematics_and_production_files/tropic_rev_d/spf-94468_d.pdf) | [download](./schematics_and_production_files/tropic_rev_d/DESIGN_AND_FABRICATION_FILES_REV_D.zip) |
+| rev.C | [download](./schematics_and_production_files/tropic_rev_C/TROPIC_Schematic_RevC_Feb_25.zip) | - |
+| rev.D | [download](./schematics_and_production_files/tropic_rev_D/SPF-94468_D.pdf) | [download](./schematics_and_production_files/tropic_rev_D/MR-VMU-TROPIC_fabrication_files_rev_D.zip) |
+| rev.F | [download](./schematics_and_production_files/tropic_rev_F/SPF-94468_F.pdf) | [download](./schematics_and_production_files/tropic_rev_F/MR-VMU-TROPIC_fabrication_files_rev_F.zip) |
