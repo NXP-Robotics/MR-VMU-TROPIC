@@ -28,7 +28,7 @@ The MR-VMU-Tropic supports multiple Autopilots, please check the individual guid
 
 Tropic VMU also supports Zephyr RTOS with most of it's peripherals enabled.
 
-> [!NOTE]  
+> [!NOTE]
 > We're still in the process of upstreaming code please check the open pull requests in the corresponding projects
 
 
@@ -46,7 +46,7 @@ MR-VMU-Tropic design is based around the [NXP MIMXRT1064DVJ6B](https://www.nxp.c
 MR-VMU-Tropic board consisting of:
 
 - Bosch BMI088 IMU
-- Bosch BMM350 Magnetometer 
+- Bosch BMM350 Magnetometer
 - Bosch BMP390 Barometer
 - TDK InvenSense ICM-45686 IMU
 - CAN-FD with a NXP TJA1462ATK CAN Transceiver
@@ -71,9 +71,13 @@ With connectors for:
 
 Some of the JST-GH connectors pinout follows the [DS-009 connector specification](https://github.com/pixhawk/Pixhawk-Standards/blob/master/DS-009%20Pixhawk%20Connector%20Standard.pdf)
 
-## Schematics
-[MR-VMU-Tropic rev.D schematics](./spf-94468_d.pdf)
 
-## Production files
+## Schematics and Production Files
 
-These are the [production files](./DESIGN_AND_FABRICATION_FILES_REV_D.zip) used for rev.D of MR-VMU-Tropic
+These are the schematics and production files available for different versions of MR-VMU-Tropic:
+Hardware design files for MR-VMU-Tropic board revisions:
+
+| Revision | Schematics | Production files |
+|----------|------------|------------------|
+| rev.C | [download](./schematics_and_production_files/tropic_rev_c/TROPIC_Schematic_RevC_Feb_25.zip) | - |
+| rev.D | [download](./schematics_and_production_files/tropic_rev_d/spf-94468_d.pdf) | [download](./schematics_and_production_files/tropic_rev_d/DESIGN_AND_FABRICATION_FILES_REV_D.zip) |
