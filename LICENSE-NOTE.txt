@@ -1,1 +1,0 @@
-This code is currently published without a license. A permissive open-source license (e.g., BSD, Apache 2.0, CERN) is expected to be applied in the future. Until a license is formally applied, this code is provided for reference only and may not be used, modified, or distributed without explicit permission.
