@@ -1,0 +1,440 @@
+# Pinout data for the MR-VMU-Tropic hardware reference. The cards, photos and tables are generated from this file.
+
+# Pinout data for the MR-VMU-Tropic hardware reference.
+# Draft extracted from SPF-94468_F.pdf (rev F). Photo labels are not filled in yet.
+
+meta:
+  title: MR-VMU-Tropic hardware reference
+  short_title: MR-VMU-TROPIC
+  soc: i.MX RT1064
+
+categories:
+  vin:   {label: "VIN 9-52 V",      fill: "#8b1a1a", dark: "#f85149"}
+  5v:    {label: "5 V",             fill: "#d1242f", dark: "#ff7b72"}
+  3v3:   {label: "3.3 V",           fill: "#bc4c00", dark: "#f0883e"}
+  gnd:   {label: "GND",             fill: "#1f2328", dark: "#6e7681"}
+  uart:  {label: "UART",            fill: "#0969da", dark: "#58a6ff"}
+  i2c:   {label: "I2C",             fill: "#8250df", dark: "#bc8cff"}
+  spi:   {label: "SPI",             fill: "#1a7f37", dark: "#3fb950"}
+  pwm:   {label: "PWM / timer",     fill: "#9a6700", dark: "#d29922"}
+  can:   {label: "CAN FD",          fill: "#0a7c86", dark: "#39c5cf"}
+  usb:   {label: "USB",             fill: "#a40e6b", dark: "#f778ba"}
+  eth:   {label: "Ethernet",        fill: "#116329", dark: "#56d364"}
+  debug: {label: "SWD / JTAG",      fill: "#57606a", dark: "#8b949e"}
+  boot:  {label: "Boot mode",       fill: "#bf3989", dark: "#f778ba"}
+  gpio:  {label: "GPIO / misc",     fill: "#6e7781", dark: "#8b949e"}
+  adc:   {label: "Analog",          fill: "#bf3989", dark: "#ff9bce"}
+  audio: {label: "Audio",           fill: "#7d4e00", dark: "#e3b341"}
+  mipi:  {label: "MIPI CSI",        fill: "#4d2d91", dark: "#a78bfa"}
+  nc:    {label: "NC / key",        fill: "#eaeef2", dark: "#30363d", text: "#57606a"}
+
+boards:
+  main: {name: "MR-VMU-Tropic (rev F)", short: Main, tag: "main board"}
+
+overviews:
+  top:
+    photo: TROPIC_TOP.JPG
+    crop: [0.12, 0.02, 0.88, 0.98]
+    max_px: 1100
+    alt: "MR-VMU-Tropic top view with connector labels"
+    callouts:
+      - {conn: main/J11, x: 0.362, y: 0.170, side: left}
+      - {conn: main/J7,  x: 0.232, y: 0.305, side: left}
+      - {conn: main/J8,  x: 0.232, y: 0.445, side: left}
+      - {conn: main/J10, x: 0.300, y: 0.565, side: left}
+      - {conn: main/J4,  x: 0.552, y: 0.095, side: top}
+      - {conn: main/P1,  x: 0.808, y: 0.320, side: right}
+      - {conn: main/J9,  x: 0.702, y: 0.505, side: right}
+      - {conn: main/J3,  x: 0.832, y: 0.525, side: right}
+      - {conn: main/J6,  x: 0.425, y: 0.715, side: bottom}
+      - {conn: main/J5,  x: 0.612, y: 0.700, side: bottom}
+      - {conn: main/J2,  x: 0.458, y: 0.895, side: bottom}
+      - {conn: main/SW2, x: 0.567, y: 0.223, side: top}
+      - {conn: main/J1,  hidden: "bottom view"}
+      - {conn: main/J12, hidden: "bottom view"}
+      - {conn: main/J13, hidden: "bottom view"}
+      - {conn: main/CN1, hidden: "bottom view"}
+  bottom:
+    photo: TROPIC_BOTTOM.JPG
+    crop: [0.12, 0.02, 0.88, 0.98]
+    max_px: 1100
+    alt: "MR-VMU-Tropic bottom view with connector labels"
+    callouts:
+      - {conn: main/J13, x: 0.372, y: 0.100, side: top}
+      - {conn: main/J12, x: 0.552, y: 0.100, side: top}
+      - {conn: main/J1,  x: 0.780, y: 0.555, side: right}
+      - {conn: main/CN1, x: 0.430, y: 0.720, side: bottom}
+
+connectors:
+  # ------------------------------------------------------------------ power
+  - ref: J2
+    board: main
+    name: POWER
+    cat: 5v
+    function: "Power module input, 5 V plus battery monitor I2C"
+    type: "Molex Clik-Mate 1x6 (5024430670)"
+    source: "SPF-94468_F.pdf p2"
+    level: "3.3 V logic on SCL and SDA"
+    layout: single
+    notes: >
+      This is the main supply of the board. The power module feeds 5 V into pins 1 and 2, and the
+      board makes its own 3.3 V and 1.8 V from it. Pins 3 and 4 are an I2C bus that reads voltage
+      and current from the power module.
+    alerts:
+      - {type: warning, text: "Feed only 5 V into pins 1 and 2. A higher voltage damages the board, because there is no regulator behind this connector."}
+    pins:
+      - {n: 1, net: "5V",     cat: 5v,  label: "5V in"}
+      - {n: 2, net: "5V",     cat: 5v,  label: "5V in"}
+      - {n: 3, net: PM_SCL,   cat: i2c, label: "I2C SCL", pad: GPIO_EMC_22, alt: [LPI2C3_SCL, GPIO4_IO22]}
+      - {n: 4, net: PM_SDA,   cat: i2c, label: "I2C SDA", pad: GPIO_EMC_21, alt: [LPI2C3_SDA, GPIO4_IO21]}
+      - {n: 5, net: GND,      cat: gnd}
+      - {n: 6, net: GND,      cat: gnd}
+
+  # ------------------------------------------------------------------ debug
+  - ref: J3
+    board: main
+    name: DEBUG
+    cat: debug
+    function: "SWD debug and console, DS-009 debug full layout"
+    type: "JST-SH 1x10"
+    standard: "DS-009 debug full"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: console, /dev/ttyS0 (LPUART6)"]
+    notes: >
+      Pin 1 is a 3.3 V reference output for the debug probe, fed. Pins 2 and 3
+      are the serial console. Pins 4, 5 and 6 are the SWD lines of the i.MX RT1064. Pin 9 is the
+      reset line of the chip, which is also pulled up on the board.
+    alerts:
+      - {type: warning, text: "Pin 1 is an output at 3.3 V, not a supply input. Use a debug probe that works at 3.3 V and never drive this pin."}
+    pins:
+      - {n: 1,  net: "3V3",       cat: 3v3,   label: "VREF 3.3V"}
+      - {n: 2,  net: CONSOLE_TX,  cat: uart,  label: "UART TX",  pad: GPIO_EMC_25, alt: [LPUART6_TX, GPIO4_IO25]}
+      - {n: 3,  net: CONSOLE_RX,  cat: uart,  label: "UART RX",  pad: GPIO_EMC_26, alt: [LPUART6_RX, GPIO4_IO26]}
+      - {n: 4,  net: SWDIO,       cat: debug, label: "SWDIO",    pad: GPIO_AD_B0_06, alt: [JTAG_TMS, GPIO1_IO06]}
+      - {n: 5,  net: SWDCLK,      cat: debug, label: "SWCLK",    pad: GPIO_AD_B0_07, alt: [JTAG_TCK, GPIO1_IO07]}
+      - {n: 6,  net: SWO,         cat: debug, label: "SWO",      pad: GPIO_B0_13, alt: [ARM_TRACE_SWO, GPIO2_IO13]}
+      - {n: 7,  net: NC,          cat: nc,    label: "NC", tag: "GPIO1 in DS-009, not wired"}
+      - {n: 8,  net: NC,          cat: nc,    label: "NC", tag: "GPIO2 in DS-009, not wired"}
+      - {n: 9,  net: POR_B,       cat: gpio,  label: "nRST",     pad: POR_B, tag: "chip reset input, active low"}
+      - {n: 10, net: GND,         cat: gnd}
+
+  # ------------------------------------------------------------------ GPS
+  - ref: J4
+    board: main
+    name: GPS
+    cat: uart
+    function: "GPS module with compass, safety switch and buzzer"
+    type: "JST-GH 1x10 (BM10B-GHS-TBT), top entry"
+    standard: "DS-009 GPS"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: GPS, /dev/ttyS1 (LPUART2)"]
+    notes: >
+      Pin 1 gives 5 V to the GPS module and pin 8 gives 3.3 V. Both are outputs. Pins 2 to 5 are
+      the GPS serial port and the shared I2C bus, the same bus as on the I2C connector J10. Pin 6
+      reads the safety switch and pin 7 drives its LED. Pin 9 is the buzzer, switched to ground by
+      FET Q1, so the board only pulls this pin low.
+    alerts:
+      - {type: warning, text: "Pins 1 and 8 are power outputs. Never feed power into them."}
+    pins:
+      - {n: 1,  net: "5V",         cat: 5v,   label: "5V out"}
+      - {n: 2,  net: GPS_TX,       cat: uart, label: "UART TX",  pad: GPIO_AD_B1_02, alt: [LPUART2_TX, GPIO1_IO18]}
+      - {n: 3,  net: GPS_RX,       cat: uart, label: "UART RX",  pad: GPIO_AD_B1_03, alt: [LPUART2_RX, GPIO1_IO19]}
+      - {n: 4,  net: EXT_SCL,      cat: i2c,  label: "I2C SCL",  pad: GPIO_AD_B1_00, alt: [LPI2C1_SCL, GPIO1_IO16]}
+      - {n: 5,  net: EXT_SDA,      cat: i2c,  label: "I2C SDA",  pad: GPIO_AD_B1_01, alt: [LPI2C1_SDA, GPIO1_IO17]}
+      - {n: 6,  net: ARM,          cat: gpio, label: "Safety switch", pad: GPIO_B0_12, alt: [XBAR1_INOUT10, GPIO2_IO12]}
+      - {n: 7,  net: GPS_LED,      cat: gpio, label: "Safety LED",    pad: GPIO_EMC_39, alt: [FLEXPWM1_PWMB03, GPIO3_IO25]}
+      - {n: 8,  net: "3V3",        cat: 3v3,  label: "3.3V out"}
+      - {n: 9,  net: BUZZER_EXT,   cat: gpio, label: "Buzzer", via: "FET Q1", pad: GPIO_EMC_23, alt: [FLEXPWM1_PWMA00, GPIO4_IO23]}
+      - {n: 10, net: GND,          cat: gnd}
+
+  # ------------------------------------------------------------------ CAN
+  - ref: J5
+    board: main
+    name: CAN
+    cat: can
+    function: "CAN FD (TJA1462)"
+    type: "JST-GH 1x4, top entry"
+    standard: "DS-009 CAN"
+    source: "SPF-94468_F.pdf p4"
+    bridge:
+      name: TJA1462
+      role: "CAN FD transceiver"
+      map:
+        - {net: CAN_H, port_in: CANH, port_out: TXD, label: "CAN3 TX", pad: GPIO_EMC_36, alt: [FLEXCAN3_TX]}
+        - {net: CAN_L, port_in: CANL, port_out: RXD, label: "CAN3 RX", pad: GPIO_EMC_37, alt: [FLEXCAN3_RX]}
+    flags: ["120 Ω termination: fitted"]
+    layout: single
+    notes: >
+      The TJA1462 transceiver runs from 5 V and talks to the chip at 3.3 V. CANH and CANL together
+      form the differential bus, TXD and RXD are the logic lines to the i.MX RT1064. The 120 Ω termination is fitted, so this port is one end of the bus.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",  cat: 5v,  label: "5V out"}
+      - {n: 2, net: CAN_H, cat: can, label: "CAN H"}
+      - {n: 3, net: CAN_L, cat: can, label: "CAN L"}
+      - {n: 4, net: GND,   cat: gnd}
+
+  # ------------------------------------------------------------------ SPI / OSD
+  - ref: J6
+    board: main
+    name: SPI (OSD)
+    cat: spi
+    function: "External SPI port, meant for an on-screen display board"
+    type: "JST-GH 1x8 (BM08B-GHS-TBT), top entry"
+    source: "SPF-94468_F.pdf p7"
+    level: "3.3 V logic"
+    layout: single
+    notes: >
+      Pin 1 gives 5 V to the add-on board, the signal lines work at 3.3 V. Pin 6 is a data-ready
+      input and pin 7 a reset output. This port is separate from the SPI bus of the on-board
+      sensors.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",        cat: 5v,   label: "5V out"}
+      - {n: 2, net: OSD_SCK,     cat: spi,  label: "SPI SCK",  pad: GPIO_SD_B1_07, alt: [LPSPI2_SCK, GPIO3_IO07]}
+      - {n: 3, net: OSD_MISO,    cat: spi,  label: "SPI MISO", pad: GPIO_SD_B1_09, alt: [LPSPI2_SDI, GPIO3_IO09]}
+      - {n: 4, net: OSD_MOSI,    cat: spi,  label: "SPI MOSI", pad: GPIO_SD_B1_08, alt: [LPSPI2_SDO, GPIO3_IO08]}
+      - {n: 5, net: OSD_CS,      cat: spi,  label: "SPI CS",   pad: GPIO_SD_B1_06, alt: [LPSPI2_PCS0, GPIO3_IO06]}
+      - {n: 6, net: OSD_DRDY,    cat: gpio, label: "Data ready", pad: GPIO_SD_B1_10, alt: [GPIO3_IO10]}
+      - {n: 7, net: OSD_nRESET,  cat: gpio, label: "nRST",     pad: GPIO_SD_B1_11, alt: [GPIO3_IO11]}
+      - {n: 8, net: GND,         cat: gnd}
+
+  # ------------------------------------------------------------------ AUX
+  - ref: J7
+    board: main
+    name: AUX
+    cat: uart
+    function: "Spare serial port with handshake lines"
+    type: "JST-GH 1x6 (BM06B-GHS-TBT), top entry"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: AUX, /dev/ttyS3 (LPUART4)"]
+    notes: >
+      Pin 1 gives 5 V out. Pins 2 and 3 are LPUART4, the AUX serial port (/dev/ttyS3 in PX4).
+      Pins 4 and 5 are called CTS and RTS in the schematic but are free pins. The chips on this
+      connector can do more than a serial port, see the pad functions on each pin:
+      PWM on pins 2 and 3 (FlexPWM1 module 3, A and B), a quadrature encoder or a trigger through
+      the crossbar (XBAR1) on all four signal pins, and a second CAN bus on pins 4 and 5 (FlexCAN2,
+      needs an external transceiver).
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",     cat: 5v,   label: "5V out"}
+      - {n: 2, net: AUX_TX,   cat: uart, label: "UART TX",  pad: GPIO_B1_00, alt: [LPUART4_TX, FLEXPWM1_PWMA03, XBAR1_INOUT14, GPIO2_IO16]}
+      - {n: 3, net: AUX_RX,   cat: uart, label: "UART RX",  pad: GPIO_B1_01, alt: [LPUART4_RX, FLEXPWM1_PWMB03, XBAR1_INOUT15, GPIO2_IO17]}
+      - {n: 4, net: AUX_CTS,  cat: uart, label: "UART CTS", pad: GPIO_AD_B0_15, alt: [XBAR1_IN25, FLEXCAN2_RX, GPIO1_IO15]}
+      - {n: 5, net: AUX_RTS,  cat: uart, label: "UART RTS", pad: GPIO_AD_B0_14, alt: [XBAR1_IN24, FLEXCAN2_TX, GPIO1_IO14]}
+      - {n: 6, net: GND,      cat: gnd}
+
+  # ------------------------------------------------------------------ TELEM 1
+  - ref: J8
+    board: main
+    name: TELEM1
+    cat: uart
+    function: "Telemetry serial port 1 with flow control"
+    type: "JST-GH 1x6 (BM06B-GHS-TBT), top entry"
+    standard: "DS-009 TELEM"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: TELEM1, /dev/ttyS2 (LPUART3)"]
+    notes: >
+      Standard DS-009 telemetry layout: 5 V, TX, RX, CTS, RTS, ground. Pin 1 gives 5 V out through
+      ferrite FL3.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",       cat: 5v,   label: "5V out"}
+      - {n: 2, net: TELEM_TX,   cat: uart, label: "UART TX",  pad: GPIO_AD_B1_06, alt: [LPUART3_TX, GPIO1_IO22]}
+      - {n: 3, net: TELEM_RX,   cat: uart, label: "UART RX",  pad: GPIO_AD_B1_07, alt: [LPUART3_RX, GPIO1_IO23]}
+      - {n: 4, net: TELEM_CTS,  cat: uart, label: "UART CTS", pad: GPIO_AD_B1_04, alt: [LPUART3_CTS_B, GPIO1_IO20]}
+      - {n: 5, net: TELEM_RTS,  cat: uart, label: "UART RTS", pad: GPIO_AD_B1_05, alt: [LPUART3_RTS_B, GPIO1_IO21]}
+      - {n: 6, net: GND,        cat: gnd}
+
+  # ------------------------------------------------------------------ TELEM 2
+  - ref: J9
+    board: main
+    name: TELEM2
+    cat: uart
+    function: "Telemetry serial port 2 with flow control"
+    type: "JST-GH 1x6, top entry"
+    standard: "DS-009 TELEM"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: TELEM2 (LPUART5)"]
+    notes: >
+      Same layout and same circuit as TELEM1, on a second serial port of the chip. Pin 1 gives 5 V
+      out.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",        cat: 5v,   label: "5V out"}
+      - {n: 2, net: TELEM2_TX,   cat: uart, label: "UART TX",  pad: GPIO_B1_12, alt: [LPUART5_TX, GPIO2_IO28]}
+      - {n: 3, net: TELEM2_RX,   cat: uart, label: "UART RX",  pad: GPIO_B1_13, alt: [LPUART5_RX, GPIO2_IO29]}
+      - {n: 4, net: TELEM2_CTS,  cat: uart, label: "UART CTS", pad: GPIO_EMC_28, alt: [LPUART5_CTS_B, GPIO4_IO28]}
+      - {n: 5, net: TELEM2_RTS,  cat: uart, label: "UART RTS", pad: GPIO_EMC_27, alt: [LPUART5_RTS_B, GPIO4_IO27]}
+      - {n: 6, net: GND,         cat: gnd}
+
+  # ------------------------------------------------------------------ I2C
+  - ref: J10
+    board: main
+    name: I2C
+    cat: i2c
+    function: "External I2C bus"
+    type: "JST-GH 1x4, top entry"
+    standard: "DS-009 I2C"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    notes: >
+      The same bus as pins 4 and 5 of the GPS connector, so devices here share those addresses.
+      Pin 1
+      gives 5 V out.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",     cat: 5v,  label: "5V out"}
+      - {n: 2, net: EXT_SCL,  cat: i2c, label: "I2C SCL", pad: GPIO_AD_B1_00, alt: [LPI2C1_SCL, GPIO1_IO16]}
+      - {n: 3, net: EXT_SDA,  cat: i2c, label: "I2C SDA", pad: GPIO_AD_B1_01, alt: [LPI2C1_SDA, GPIO1_IO17]}
+      - {n: 4, net: GND,      cat: gnd}
+
+  # ------------------------------------------------------------------ RC
+  - ref: J11
+    board: main
+    name: RC
+    cat: uart
+    function: "Serial radio control receiver port"
+    type: "JST-GH 1x4, top entry"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    flags: ["PX4: RC, /dev/ttyS6 (LPUART8)"]
+    notes: >
+      Serial port for a digital receiver such as ELRS or CRSF. Pin 1 gives 5 V out through a
+      resettable fuse, so a shorted receiver cannot pull down the board supply.
+    alerts:
+      - {type: warning, text: "Pin 1 is a 5 V output. Never feed power into it."}
+    pins:
+      - {n: 1, net: "5V",   cat: 5v,   label: "5V out", alt: ["500 mA fuse"]}
+      - {n: 2, net: RC_TX,  cat: uart, label: "UART TX", pad: GPIO_AD_B1_10, alt: [LPUART8_TX, GPIO1_IO26]}
+      - {n: 3, net: RC_RX,  cat: uart, label: "UART RX", pad: GPIO_AD_B1_11, alt: [LPUART8_RX, GPIO1_IO27]}
+      - {n: 4, net: GND,    cat: gnd}
+
+  # ------------------------------------------------------------------ PWM B
+  - ref: J12
+    board: main
+    name: PWM_B
+    cat: pwm
+    function: "Motor outputs 5 to 8 (ESC header)"
+    type: "JST-SH 1x8"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    notes: >
+      Same circuit as PWM_A, for motors 5 to 8. The signals carry normal PWM or DShot. The same
+      pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is
+      the same shared ESC telemetry line: LPUART7 in single-wire mode, receive only. Pins 1 and 3
+      are not connected on rev F.
+    alerts:
+      - {type: note, text: "This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER."}
+    pins:
+      - {n: 1, net: NC,        cat: nc,   label: "NC"}
+      - {n: 2, net: GND,       cat: gnd}
+      - {n: 3, net: NC,        cat: nc,   label: "NC"}
+      - {n: 4, net: ONE_WIRE,  cat: uart, label: "ESC telemetry", pad: GPIO_EMC_31, alt: [LPUART7_TX, GPIO4_IO31], note: "LPUART7 in single-wire mode, receive only"}
+      - {n: 5, net: PWM_5,     cat: pwm,  label: "PWM5", pad: GPIO_EMC_02, alt: [FLEXPWM4_PWMA01, FLEXIO1_FLEXIO02, GPIO4_IO02]}
+      - {n: 6, net: PWM_6,     cat: pwm,  label: "PWM6", pad: GPIO_EMC_03, alt: [FLEXPWM4_PWMB01, FLEXIO1_FLEXIO03, GPIO4_IO03]}
+      - {n: 7, net: PWM_7,     cat: pwm,  label: "PWM7", pad: GPIO_EMC_04, alt: [FLEXPWM4_PWMA02, FLEXIO1_FLEXIO04, GPIO4_IO04]}
+      - {n: 8, net: PWM_8,     cat: pwm,  label: "PWM8", pad: GPIO_EMC_05, alt: [FLEXPWM4_PWMB02, FLEXIO1_FLEXIO05, GPIO4_IO05]}
+
+  # ------------------------------------------------------------------ PWM A
+  - ref: J13
+    board: main
+    name: PWM_A
+    cat: pwm
+    function: "Motor outputs 1 to 4 (ESC header)"
+    type: "JST-SH 1x8"
+    source: "SPF-94468_F.pdf p4"
+    level: "3.3 V logic"
+    layout: single
+    notes: >
+      Four motor signals for a four-in-one ESC. They carry normal PWM or DShot. The
+      same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO.
+      Pin 4 is the ESC telemetry line, shared with the other ESC header. The ESCs send
+      their UART telemetry (voltage, current, RPM, temperature) on this one wire, and the chip
+      receives it on LPUART7 in single-wire mode. It is receive only; the chip never transmits here.
+      Pins 1 and 3 are not connected on rev F.
+    alerts:
+      - {type: note, text: "This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER."}
+    pins:
+      - {n: 1, net: NC,        cat: nc,   label: "NC"}
+      - {n: 2, net: GND,       cat: gnd}
+      - {n: 3, net: NC,        cat: nc,   label: "NC"}
+      - {n: 4, net: ONE_WIRE,  cat: uart, label: "ESC telemetry", pad: GPIO_EMC_31, alt: [LPUART7_TX, GPIO4_IO31], note: "LPUART7 in single-wire mode, receive only"}
+      - {n: 5, net: PWM_1,     cat: pwm,  label: "PWM1", pad: GPIO_EMC_06, alt: [FLEXPWM2_PWMA00, FLEXIO1_FLEXIO06, GPIO4_IO06]}
+      - {n: 6, net: PWM_2,     cat: pwm,  label: "PWM2", pad: GPIO_EMC_07, alt: [FLEXPWM2_PWMB00, FLEXIO1_FLEXIO07, GPIO4_IO07]}
+      - {n: 7, net: PWM_3,     cat: pwm,  label: "PWM3", pad: GPIO_EMC_08, alt: [FLEXPWM2_PWMA01, FLEXIO1_FLEXIO08, GPIO4_IO08]}
+      - {n: 8, net: PWM_4,     cat: pwm,  label: "PWM4", pad: GPIO_EMC_09, alt: [FLEXPWM2_PWMB01, FLEXIO1_FLEXIO09, GPIO4_IO09]}
+
+  # ------------------------------------------------------------------ Ethernet
+  - ref: P1
+    board: main
+    name: ETH
+    cat: eth
+    function: "100BASE-T1 single pair Ethernet"
+    type: "JST-GH 1x2, top entry"
+    source: "SPF-94468_F.pdf p5"
+    path: [{name: "TJA1103", role: "100BASE-T1 PHY"}]
+    layout: single
+    notes: >
+      Two wires carry send and receive at 100 Mbit/s. The TJA1103 does the physical layer and talks
+      to the chip over RMII, so there is no direct link between these pins and a chip pad. Use a
+      twisted pair and keep both wires the same length. The other end needs a 100BASE-T1 device or
+      a media converter.
+    pins:
+      - {n: 1, net: ETH_TRX_M, cat: eth, label: "T1 pair -", via: "TJA1103"}
+      - {n: 2, net: ETH_TRX_P, cat: eth, label: "T1 pair +", via: "TJA1103"}
+
+  # ------------------------------------------------------------------ summary rows
+  - ref: J1
+    board: main
+    name: USB
+    cat: usb
+    function: "USB 2.0 Type-C device port"
+    type: "USB Type-C receptacle (USB4110-GF-A)"
+    source: "SPF-94468_F.pdf p2"
+    layout: summary
+    summary: "Serial download port of the i.MX RT1064 boot ROM, and the port used for flashing. The board is always a USB device. VBUS can also power the board through protection switch U13."
+
+  - ref: CN1
+    board: main
+    name: MICROSD
+    cat: gpio
+    function: "microSD card slot"
+    type: "microSD push-push, 8 pins plus card detect"
+    source: "SPF-94468_F.pdf p3"
+    layout: summary
+    summary: "Four-bit SD interface on the first SD host of the chip, used for logging. The card detect switch goes to a separate chip pin."
+
+  - ref: SW2
+    board: main
+    name: BOOT
+    cat: boot
+    function: "Boot mode button"
+    type: "Push button (NANOT 240 AS)"
+    source: "SPF-94468_F.pdf p3"
+    layout: summary
+    summary: "Holding this button while the board powers up pulls boot mode 0 high and starts the serial downloader over the USB port. The second boot mode pin is tied low on the board."
+
+cheatsheet:
+  brand: MR-VMU-TROPIC
+  pages:
+    - {title: "MR-VMU-Tropic rev F", boards: [main]}
