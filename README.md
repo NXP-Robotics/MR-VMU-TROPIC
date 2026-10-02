@@ -278,7 +278,7 @@ The TJA1462 transceiver runs from 5 V and talks to the chip at 3.3 V. CANH and C
   <img alt="Main J13 PWM_A pinout" src="images/main-J13.svg" width="778" height="355">
 </picture>
 
-Four motor signals for a four-in-one ESC. They carry normal PWM or DShot. The same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is the ESC telemetry line, shared with the other ESC header. The ESCs send their UART telemetry (voltage, current, RPM, temperature) on this one wire, and the chip receives it on LPUART7 in single-wire mode. It is receive only; the chip never transmits here. Pins 1 and 3 are not connected on rev F.
+Four motor signals for a four-in-one ESC. The pin order follows the [Betaflight ESC connector standard](https://betaflight.com/docs/development/manufacturer/connector-standard#standard-esc-pin-configuration), so a standard 8-pin ESC cable fits. The signals carry normal PWM or DShot. The same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is the ESC telemetry line, shared with the other ESC header. The ESCs send their UART telemetry (voltage, current, RPM, temperature) on this one wire, and the chip receives it on LPUART7 in single-wire mode. It is receive only; the chip never transmits here. Pins 1 (battery voltage) and 3 (current) of the Betaflight standard are not connected on rev F, so the board does not read battery voltage or current from the ESC.
 
 > [!NOTE]
 > This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER.
@@ -294,7 +294,7 @@ Four motor signals for a four-in-one ESC. They carry normal PWM or DShot. The sa
   <img alt="Main J12 PWM_B pinout" src="images/main-J12.svg" width="778" height="355">
 </picture>
 
-Same circuit as PWM_A, for motors 5 to 8. The signals carry normal PWM or DShot. The same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is the same shared ESC telemetry line: LPUART7 in single-wire mode, receive only. Pins 1 and 3 are not connected on rev F.
+Same circuit and same Betaflight pin order as PWM_A, for motors 5 to 8. The signals carry normal PWM or DShot. The same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is the same shared ESC telemetry line: LPUART7 in single-wire mode, receive only. Pins 1 (battery voltage) and 3 (current) of the Betaflight standard are not connected on rev F, so the board does not read battery voltage or current from the ESC.
 
 > [!NOTE]
 > This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER.
@@ -354,6 +354,10 @@ Two wires carry send and receive at 100 Mbit/s. The TJA1103 does the physical la
   follow the Dronecode
   [DS-009 connector standard](https://github.com/pixhawk/Pixhawk-Standards/blob/master/DS-009%20Pixhawk%20Connector%20Standard.pdf),
   so standard cables fit.
+- The two ESC headers (PWM_A and PWM_B) follow the
+  [Betaflight ESC connector standard](https://betaflight.com/docs/development/manufacturer/connector-standard#standard-esc-pin-configuration),
+  so a four-in-one ESC with a standard 8-pin cable fits. Pins 1 (battery voltage) and 3 (current)
+  are not connected on this board.
 - The board runs from 5 V on the power module connector J2, or from USB. Every other 5 V pin
   is an output.
 

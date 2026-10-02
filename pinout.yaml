@@ -339,10 +339,10 @@ connectors:
     level: "3.3 V logic"
     layout: single
     notes: >
-      Same circuit as PWM_A, for motors 5 to 8. The signals carry normal PWM or DShot. The same
+      Same circuit and same Betaflight pin order as PWM_A, for motors 5 to 8. The signals carry normal PWM or DShot. The same
       pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO. Pin 4 is
-      the same shared ESC telemetry line: LPUART7 in single-wire mode, receive only. Pins 1 and 3
-      are not connected on rev F.
+      the same shared ESC telemetry line: LPUART7 in single-wire mode, receive only. Pins 1 (battery voltage) and 3 (current) of the Betaflight standard are not connected on rev F,
+      so the board does not read battery voltage or current from the ESC.
     alerts:
       - {type: note, text: "This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER."}
     pins:
@@ -366,12 +366,15 @@ connectors:
     level: "3.3 V logic"
     layout: single
     notes: >
-      Four motor signals for a four-in-one ESC. They carry normal PWM or DShot. The
+      Four motor signals for a four-in-one ESC. The pin order follows the
+      [Betaflight ESC connector standard](https://betaflight.com/docs/development/manufacturer/connector-standard#standard-esc-pin-configuration),
+      so a standard 8-pin ESC cable fits. The signals carry normal PWM or DShot. The
       same pads are also FlexIO1 pins, so DShot or other protocols can be bit-banged by FlexIO.
       Pin 4 is the ESC telemetry line, shared with the other ESC header. The ESCs send
       their UART telemetry (voltage, current, RPM, temperature) on this one wire, and the chip
       receives it on LPUART7 in single-wire mode. It is receive only; the chip never transmits here.
-      Pins 1 and 3 are not connected on rev F.
+      Pins 1 (battery voltage) and 3 (current) of the Betaflight standard are not connected on rev F,
+      so the board does not read battery voltage or current from the ESC.
     alerts:
       - {type: note, text: "This header has no 5 V pin. Many ESCs have a BEC that powers the flight controller, but this board does not use it. It gets its 5 V from the power module on J2 POWER."}
     pins:
